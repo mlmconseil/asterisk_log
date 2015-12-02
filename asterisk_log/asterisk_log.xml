@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Form Asterisk log -->
+        <record id="asterisk_log_form" model="ir.ui.view">
+            <field name="name">asterisk.log.form</field>
+            <field name="model">asterisk.log</field>
+            <field name="arch" type="xml">
+                <form string="Asterisk log">
+                    <sheet>
+                        <footer>
+                            <button name="update_tree" type="object"
+                                string="Mettre à jour" icon="gtk-refresh" /> 
+                            <button special="cancel" string="Annuler" icon="gtk-cancel" />
+                        </footer>
+                    </sheet>                                           
+                </form>
+            </field>
+        </record>
+        
+        <!-- Tree Asterisk log -->
+        <record id="asterisk_log_tree" model="ir.ui.view">
+            <field name="name">asterisk.log.tree</field>
+            <field name="model">asterisk.log</field>
+            <field name="arch" type="xml">
+                <tree string="Les appels" default_order="date desc">
+                    <field name="appelant" />
+                    <field name="appele" />
+                    <field name="date" />
+                    <field name="heure" />
+                    <field name="duree" />
+                    <field name="etat" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Asterisk log search view -->
+        <record model="ir.ui.view" id="asterisk_log_search"> <!-- id a renommer -->
+            <field name="name">asterisk.log.search</field>
+            <field name="model">asterisk.log</field>
+            <field name="arch" type="xml">
+                <search string="Les appels">
+                    <!-- Ajouter un filtre pour les appels sortants et entrants -->
+
+                    <!-- <filter string="Sortant" domain="[('appelant','=',(context_today().strftime('%Y-%m-%d'))]" name="Aujourd'hui"/> -->
+
+                    <filter string="Appels sortants" domain="[('appele','!=','0033185092063')]" name="Appels sortants"/> 
+
+                    <filter string="Appels entrants" domain="[('appele','=','0033185092063')]" name="Appels entrants"/> 
+
+                    <filter string="Aujourd'hui" domain="[('date','&gt;=',context_today().strftime('%Y-%m-%d'))]" name="Aujourd'hui"/> 
+                    
+                    <filter string="Répondu" domain="[('etat','=','ANSWERED')]" name="etat_repondu" />
+                    <!-- <filter string="Merouane" domain="[('appelant','=','205')]" name="Appels de Merouane"/> -->
+                    
+                    <!-- <filter string="Merouane-Aujourd'hui" domain="['|',('date','&gt;=',context_today().strftime('%Y-%m-%d')),'&amp;',('appelant','=','205')]" name="Aujourd'hui"/>  -->
+                    
+                    <separator/>
+                    <group expand="0" string="Groupé par">
+                        <filter string="Appelant" domain="[]" context="{'group_by':'appelant'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- asterisk log graph view  -->
+        <record model="ir.ui.view" id="asterisk_log_graph">
+            <field name="name">asterisk.log.graph</field>
+            <field name="model">asterisk.log</field>
+            <field name="arch" type="xml">
+                <!-- <graph string="Total idea score by Inventor"> -->
+               <!--  <graph string="Total des appels par utilisateur" type="bar" stacked="True">
+                    <field name="date" /> -->
+                    <!-- <field name="appelant" type="row" interval="month"/> -->
+                    <!-- <field name="appelant" type="col" interval="month"  />
+                </graph> -->
+                <graph string="Appels" type="bar" stacked="True"><!-- <graph string="appels" type="pivot"> -->
+                    <field name="date" type="row"/>
+                    <field name="appelant" type="col" interval="month"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <!-- Action asterisk log -->
+        <record id="action_asterisk_log" model="ir.actions.act_window">
+            <field name="name" >Tous les appels</field>
+            <field name="res_model">asterisk.log</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+        
+
+        <!-- Menu asterisk log -->
+        <menuitem name="Asterisk log"
+            id="base.asterisk_log"
+            groups="base.group_sale_salesman,base.group_sale_manager"/>
+        <!-- asterisk log > appels : Menu appels non clickable -->
+        <menuitem id="base.menu_appels" name="Appels" parent="base.asterisk_log" sequence="9"/>
+        <!-- asterisk log > appels > appels  -->
+        <menuitem name="Les Appels" id="asterisk_log-appels_menu" parent="base.menu_appels" sequence="10" action="action_asterisk_log"/>
+    
+    </data>
+</openerp>
