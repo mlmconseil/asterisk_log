@@ -70,7 +70,7 @@ class asterisk_log(osv.Model):
                     appelant = str(ligne.split(",")[4].replace('"','')) # recupere au format Merouane <208>
                     appele = str(ligne.split(",")[2].replace('"',''))
                     #dans le cas ou c un appel entrant
-                    if appele in list_num:
+                    if appele in LIST_PHONE:
                         appelant = str(ligne.split(",")[1].replace('"','')) # recuperer juste le num
                         date_heure = len(ligne.split(",")[13].replace('"','').split(" "))
                         if date_heure == 2:
