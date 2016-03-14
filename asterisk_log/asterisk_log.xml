@@ -36,26 +36,18 @@
         </record>
 
         <!-- Asterisk log search view -->
-        <record model="ir.ui.view" id="asterisk_log_search"> <!-- id a renommer -->
+        <record model="ir.ui.view" id="asterisk_log_search">
             <field name="name">asterisk.log.search</field>
             <field name="model">asterisk.log</field>
             <field name="arch" type="xml">
                 <search string="Les appels">
-                    <!-- Ajouter un filtre pour les appels sortants et entrants -->
+<!--     <filter string="Appels sortants" domain="[('appele','!=','')]" name="Appels sortants"/> -->
 
-                    <!-- <filter string="Sortant" domain="[('appelant','=',(context_today().strftime('%Y-%m-%d'))]" name="Aujourd'hui"/> -->
-
-                    <filter string="Appels sortants" domain="[('appele','!=','0033185092063')]" name="Appels sortants"/> 
-
-                    <filter string="Appels entrants" domain="[('appele','=','0033185092063')]" name="Appels entrants"/> 
+                   <!-- <filter string="Appels entrants" domain="[('appele','=','000986767')]" name="Appels entrants"/> -->
 
                     <filter string="Aujourd'hui" domain="[('date','&gt;=',context_today().strftime('%Y-%m-%d'))]" name="Aujourd'hui"/> 
                     
                     <filter string="Répondu" domain="[('etat','=','ANSWERED')]" name="etat_repondu" />
-                    <!-- <filter string="Merouane" domain="[('appelant','=','205')]" name="Appels de Merouane"/> -->
-                    
-                    <!-- <filter string="Merouane-Aujourd'hui" domain="['|',('date','&gt;=',context_today().strftime('%Y-%m-%d')),'&amp;',('appelant','=','205')]" name="Aujourd'hui"/>  -->
-                    
                     <separator/>
                     <group expand="0" string="Groupé par">
                         <filter string="Appelant" domain="[]" context="{'group_by':'appelant'}"/>
@@ -70,13 +62,7 @@
             <field name="name">asterisk.log.graph</field>
             <field name="model">asterisk.log</field>
             <field name="arch" type="xml">
-                <!-- <graph string="Total idea score by Inventor"> -->
-               <!--  <graph string="Total des appels par utilisateur" type="bar" stacked="True">
-                    <field name="date" /> -->
-                    <!-- <field name="appelant" type="row" interval="month"/> -->
-                    <!-- <field name="appelant" type="col" interval="month"  />
-                </graph> -->
-                <graph string="Appels" type="bar" stacked="True"><!-- <graph string="appels" type="pivot"> -->
+                <graph string="Appels" type="bar" stacked="True">
                     <field name="date" type="row"/>
                     <field name="appelant" type="col" interval="month"/>
                 </graph>
