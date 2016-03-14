@@ -26,7 +26,8 @@ _logger = logging.getLogger(__name__)
 
 # chemin absolu vers le fichier Master.csv
 PATH_MASTER = 'C:\\Program Files (x86)\\Odoo 8.0-20150719\\server\\openerp\\addons\\asterisk_log\\Master.csv' 
-
+#liste des numero de telephone de l'entreprise , pour distinguer les appels entrants et sortants
+LIST_PHONE = ['0043434343434','034567812323']
 class asterisk_log(osv.Model):
     _name = 'asterisk.log'
     _description = "Informations sur les appels"
@@ -69,7 +70,7 @@ class asterisk_log(osv.Model):
                     appelant = str(ligne.split(",")[4].replace('"','')) # recupere au format Merouane <208>
                     appele = str(ligne.split(",")[2].replace('"',''))
                     #dans le cas ou c un appel entrant
-                    if appele == '0033185092063':
+                    if appele in LIST_PHONE:
                         appelant = str(ligne.split(",")[1].replace('"','')) # recuperer juste le num
                         date_heure = len(ligne.split(",")[13].replace('"','').split(" "))
                         if date_heure == 2:
